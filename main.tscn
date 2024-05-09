@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bd64rx45xiq5t"]
+
+[ext_resource type="Texture2D" uid="uid://dpgkc3bruxcrh" path="res://tileGreen_07.png" id="1_spqv6"]
+[ext_resource type="PackedScene" uid="uid://lf73la1ghhay" path="res://enemy.tscn" id="2_gftph"]
+[ext_resource type="PackedScene" uid="uid://xvrq2kmqcc38" path="res://player.tscn" id="3_42d7b"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_m6ikv"]
+vertices = PackedVector2Array(1143, 10, 1148, 639, 997, 476, 997, 194, 13, 639, 735, 476, 13, 15, 735, 194, 13, 296, 407, 296, 407, 384, 13, 384)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(8, 6, 7, 9), PackedInt32Array(9, 7, 5, 10), PackedInt32Array(10, 5, 4, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(3, 6, 1153, 0, 1158, 649, 3, 649)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8nl3y"]
+size = Vector2(70, 68)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2heu3"]
+size = Vector2(66.0131, 78)
+
+[node name="main" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_m6ikv")
+
+[node name="walls" type="Node2D" parent="NavigationRegion2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D/walls"]
+position = Vector2(183, 340)
+scale = Vector2(6.12, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/walls/StaticBody2D"]
+shape = SubResource("RectangleShape2D_8nl3y")
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/walls/StaticBody2D"]
+texture = ExtResource("1_spqv6")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="NavigationRegion2D/walls"]
+position = Vector2(866, 335)
+scale = Vector2(3.68, 3.36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/walls/StaticBody2D2"]
+shape = SubResource("RectangleShape2D_2heu3")
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/walls/StaticBody2D2"]
+texture = ExtResource("1_spqv6")
+
+[node name="enemy" parent="." node_paths=PackedStringArray("target_to_chase") instance=ExtResource("2_gftph")]
+position = Vector2(220, 524)
+scale = Vector2(0.68, 0.68)
+target_to_chase = NodePath("../player")
+
+[node name="player" parent="." instance=ExtResource("3_42d7b")]
+position = Vector2(218, 136)
+scale = Vector2(0.44, 0.44)
